@@ -12,8 +12,8 @@ default: &default
 development:
   <<: *default
   database: 5xtraining_backend_development
-  username: postgres
-  password: 11241205
+  username: 
+  password: 
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
