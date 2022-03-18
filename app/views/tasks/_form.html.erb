@@ -1,20 +1,20 @@
-<%= simple_form_for(task) do |f| %>
+<%= bootstrap_form_for(task) do |f| %>
   
-  <%= f.input :title, label: "標題" %>
+  <%= f.text_field :title, label: "標題" %><br/>
 
-  <%= f.input :content, label: "內容" %>
+  <%= f.text_field :content, label: "內容" %><br/>
 
-  <%=f.input :start_time, as: :datetime, html5: true, label: "開始時間"%>
+  <%=f.datetime_select :start_time, label: "開始時間"%><br/>
 
-  <%=f.input :end_time, as: :datetime, html5: true, label: "結束時間"%>
+  <%=f.datetime_select :end_time, label: "結束時間"%><br/>
   
-  <%= f.input :status, collection: ["待處理", "進行中", "已完成"], label: "狀態" %>
+  <%= f.select :status, ["待處理", "進行中", "已完成"], label: "狀態" %><br/>
 
-  <%= f.input :priority, collection: ["低", "中", "高"], label: "優先順序" %>
+  <%= f.select :priority, ["低", "中", "高"], label: "優先順序" %><br/>
 
-  <%= f.input :tag, label: "分類標籤" %>
+  <%= f.text_field :tag, label: "分類標籤" %><br/>
 
-  <%= f.input :user_id, label: "使用者序號" %>
+  <%= f.text_field :user_id, label: "使用者序號" %><br/>
 
   <%= f.submit %>
 <% end %>
