@@ -1,0 +1,32 @@
+<h1> 任務列表</h1>
+
+<br>
+<%= link_to '新增任務', new_task_path, class: "btn btn-primary"%>
+
+<table class = "table">
+    <tr>
+      <th>標題</th>
+      <th>內容</th>
+      <th>開始時間</th>
+      <th>結束時間</th>
+      <th>狀態</th>
+      <th>優先順序</th>
+      <th>分類標籤</th>
+      <th>處理</th>
+    </tr>
+    <% @tasks.each do |task| %>
+    <tr>
+        <td><%= task.title %></td>
+        <td><%= task.content %></td>
+        <td><%= task.start_time.strftime("%Y/%m/%d at %I:%M%p") %></td>
+        <td><%= task.end_time.strftime("%Y/%m/%d at %I:%M%p") %></td>
+        <td><%= task.status %></td>
+        <td><%= task.priority %></td>
+        <td><%= task.tag %></td>
+        <td>
+          <%= link_to "編輯", edit_task_path(task) %>
+          <%= link_to "刪除", task_path(task), data: { turbo_confirm: "確認刪除嗎？", turbo_method: "delete" } %>
+        </td>
+    </tr>
+    <% end %>
+</table>
