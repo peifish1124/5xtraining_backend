@@ -21,6 +21,8 @@ development:
 test:
   <<: *default
   database: 5xtraining_backend_test
+  username: 
+  password: 
 
 production:
   <<: *default
