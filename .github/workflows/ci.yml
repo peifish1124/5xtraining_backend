@@ -1,10 +1,5 @@
 name: CI
 on: [push, pull_request]
-env:
-  RAILS_ENV: test
-  POSTGRES_DB: rails_github_actions_test
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: postgres
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,6 +7,10 @@ jobs:
       postgres:
         image: postgres:11
         ports: ['5432:5432']
+        env:
+          POSTGRES_DB: rails_github_actions_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -34,6 +33,15 @@ jobs:
           cp config/database.ci.yml config/database.yml
           bundle exec rails db:create
           bundle exec rails db:schema:load
+        env:
+          RAILS_ENV: test
+          POSTGRES_DB: rails_github_actions_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
       - name: Run RSpec
         run: rspec  
-
+        env:
+          RAILS_ENV: test
+          POSTGRES_DB: rails_github_actions_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
