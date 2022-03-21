@@ -25,7 +25,7 @@
         <td><%= task.tag %></td>
         <td>
           <%= link_to "編輯", edit_task_path(task) %>
-          <%= link_to "刪除", task_path(task), data: { turbo_confirm: "確認刪除嗎？", turbo_method: "delete" } %>
+          <%= link_to "刪除", task_path(task), method: "delete", data: { turbo_confirm: "確認刪除嗎？", turbo_method: "delete" } %>
         </td>
     </tr>
     <% end %>
