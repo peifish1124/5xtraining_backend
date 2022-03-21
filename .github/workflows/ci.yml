@@ -30,11 +30,13 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Setup Database
         run: |
+          env
           cp config/database.ci.yml config/database.yml
           bundle exec rails db:create
           bundle exec rails db:schema:load
         env:
           RAILS_ENV: test
+          DATABSE_URL: postgres://postgres:postgres@localhost/rails_github_actions_test
           POSTGRES_DB: rails_github_actions_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -42,6 +44,7 @@ jobs:
         run: rspec  
         env:
           RAILS_ENV: test
+          DATABSE_URL: postgres://postgres:postgres@localhost/rails_github_actions_test
           POSTGRES_DB: rails_github_actions_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
