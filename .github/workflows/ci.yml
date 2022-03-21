@@ -8,6 +8,7 @@ jobs:
         image: postgres:11
         ports: ['5432:5432']
         env:
+          POSTGRES_DB: rails_github_actions_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         options: >-
