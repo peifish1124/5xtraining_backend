@@ -275,6 +275,7 @@ DEPENDENCIES
   debug
   factory_bot_rails
   faker
+  i18n
   importmap-rails
   jbuilder
   jquery-rails
