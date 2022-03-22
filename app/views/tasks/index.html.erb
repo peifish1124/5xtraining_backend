@@ -5,13 +5,9 @@
 
 <table class = "table">
     <tr>
-      <th><%= @tasks.human_attribute_name(:title) %></th>
-      <th><%= @tasks.human_attribute_name(:content) %></th>
-      <th><%= @tasks.human_attribute_name(:start_time) %></th>
-      <th><%= @tasks.human_attribute_name(:end_time) %></th>
-      <th><%= @tasks.human_attribute_name(:status) %></th>
-      <th><%= @tasks.human_attribute_name(:priority) %></th>
-      <th><%= @tasks.human_attribute_name(:tag) %></th>
+      <% t("activerecord.attributes.task").map { |key, value| value }[0..-2].each do |tag|%>
+        <th><%= tag %></th>
+      <% end %>
       <th><%= t("action.title") %></th>
     </tr>
     <% @tasks.each do |task| %>

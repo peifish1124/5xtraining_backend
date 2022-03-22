@@ -8,9 +8,9 @@
 
   <%=f.datetime_select :end_time, :locale => 'en'%><br/>
   
-  <%= f.select :status, [t("status.pending"), t("status.ongoing"), t("status.done")] %><br/>
+  <%= f.select :status, t(:status).map { |key, value| value } %><br/>
 
-  <%= f.select :priority, [t("priority.low"), t("priority.middle"), t("priority.high")] %><br/>
+  <%= f.select :priority, t(:priority).map { |key, value| value } %><br/>
 
   <%= f.text_field :tag %><br/>
 
