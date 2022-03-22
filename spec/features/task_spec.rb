@@ -4,19 +4,19 @@ RSpec.feature "Tasks", type: :feature do
   context "home page" do
     scenario "has home page title" do
       visit root_path
-      expect(page).to have_text "任務列表"
+      expect(page).to have_text I18n.t("page.index_page")
     end
 
     scenario "has tasks list header" do
       visit root_path
-      expect(page).to have_text "標題"
-      expect(page).to have_text "內容"
-      expect(page).to have_text "開始時間"
-      expect(page).to have_text "結束時間"
-      expect(page).to have_text "狀態"
-      expect(page).to have_text "優先順序"
-      expect(page).to have_text "分類標籤"
-      expect(page).to have_text "處理"
+      expect(page).to have_text Task.human_attribute_name(:title)
+      expect(page).to have_text Task.human_attribute_name(:content)
+      expect(page).to have_text Task.human_attribute_name(:start_time)
+      expect(page).to have_text Task.human_attribute_name(:end_time)
+      expect(page).to have_text Task.human_attribute_name(:status)
+      expect(page).to have_text Task.human_attribute_name(:priority)
+      expect(page).to have_text Task.human_attribute_name(:tag)
+      expect(page).to have_text I18n.t("action.title")
     end
 
     scenario "has tasks list body" do
@@ -34,19 +34,19 @@ RSpec.feature "Tasks", type: :feature do
     scenario "has link to new task page" do
       visit root_path
       find("a[href='#{new_task_path}']").click
-      expect(page).to have_text "新增任務"
+      expect(page).to have_text I18n.t("page.new_page")
     end
 
     scenario "edit task" do
       task = create(:task)
       visit root_path
       find("a[href='#{edit_task_path(task)}']").click
-      expect(page).to have_content "編輯任務"
-      expect(page).to have_field("標題", with: "task test")
-      fill_in "標題", with: "edit task name"
-      click_button "Update Task"
-      expect(page).to have_text "任務更新成功！"
-      expect(page).to have_text "任務列表"
+      expect(page).to have_content I18n.t("page.edit_page")
+      expect(page).to have_field("task_title", with: "task test")
+      fill_in "task_title", with: "edit task name"
+      click_button I18n.t("button.submit")
+      expect(page).to have_text I18n.t("notice.update")
+      expect(page).to have_text I18n.t("page.index_page")
       expect(page).to have_text "edit task name"
     end
 
@@ -55,8 +55,8 @@ RSpec.feature "Tasks", type: :feature do
       visit root_path
       expect(page).to have_text "task test"
       find("a[href='#{task_path(task)}']").click
-      expect(page).to have_text "任務已刪除！"
-      expect(page).to have_text "任務列表"
+      expect(page).to have_text I18n.t("notice.delete")
+      expect(page).to have_text I18n.t("page.index_page")
       expect(page).not_to have_text "task test"
     end
   end
@@ -65,11 +65,11 @@ RSpec.feature "Tasks", type: :feature do
     scenario "create task" do
       user = create(:user)
       visit new_task_path
-      fill_in '標題', with: 'test title'
-      fill_in '使用者序號', with: user.id
-      click_button 'Create Task'
-      expect(page).to have_text "新增任務成功！"
-      expect(page).to have_text "任務列表"
+      fill_in 'task_title', with: 'test title'
+      fill_in 'task_user_id', with: user.id
+      click_button I18n.t("button.submit")
+      expect(page).to have_text I18n.t("notice.new")
+      expect(page).to have_text I18n.t("page.index_page")
       expect(page).to have_text "test title"
     end
   end
