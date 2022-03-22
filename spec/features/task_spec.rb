@@ -59,6 +59,20 @@ RSpec.feature "Tasks", type: :feature do
       expect(page).to have_text I18n.t("page.index_page")
       expect(page).not_to have_text "task test"
     end
+
+    scenario "sorted by created time" do
+      user = create(:user)
+      task1 = Task.create(id: 0, title:'title1', created_at:DateTime.now+1.hour, start_time: DateTime.now, end_time: DateTime.now, 
+        status: 'pending', tag: 'test', priority: 'low', user_id: user.id)
+      task2 = Task.create(id: 1, title:'title2', created_at:DateTime.now, start_time: DateTime.now, end_time: DateTime.now, 
+        status: 'pending', tag: 'test', priority: 'low', user_id: user.id)
+      task3 = Task.create(id: 2, title:'title3', created_at:DateTime.now+2.hour, start_time: DateTime.now, end_time: DateTime.now, 
+        status: 'pending', tag: 'test', priority: 'low', user_id: user.id)
+      visit root_path
+      expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "title3")
+      expect(page).to have_css("#task_table tr:nth-child(3) td:nth-child(1)", :text => "title1")
+      expect(page).to have_css("#task_table tr:nth-child(4) td:nth-child(1)", :text => "title2")
+    end
   end
 
   context "new task page" do
@@ -71,6 +85,15 @@ RSpec.feature "Tasks", type: :feature do
       expect(page).to have_text I18n.t("notice.new")
       expect(page).to have_text I18n.t("page.index_page")
       expect(page).to have_text "test title"
+    end
+
+    scenario "create task requires title" do
+      user = create(:user)
+      visit new_task_path
+      fill_in 'task_user_id', with: user.id
+      click_button I18n.t("button.submit")
+      expect(page).to have_text I18n.t("notice.title_require")
+      expect(page).to have_text I18n.t("page.new_page")
     end
   end
 end
