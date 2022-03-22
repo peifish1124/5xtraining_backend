@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.feature "Tasks", type: :feature do
-  context "home page" do
+  let!(:user) { create(:user) }
+  let!(:task) { create(:task) }
+  let(:tasks) { create_list(:task, 2) }
+
+  context "home page" do    
     scenario "has home page title" do
       visit root_path
       expect(page).to have_text I18n.t("page.index_page")
@@ -20,7 +24,6 @@ RSpec.feature "Tasks", type: :feature do
     end
 
     scenario "has tasks list body" do
-      task = create(:task)
       visit root_path
       expect(page).to have_text "task test"
       expect(page).to have_text "this is task test"
@@ -38,7 +41,6 @@ RSpec.feature "Tasks", type: :feature do
     end
 
     scenario "edit task" do
-      task = create(:task)
       visit root_path
       find("a[href='#{edit_task_path(task)}']").click
       expect(page).to have_content I18n.t("page.edit_page")
@@ -51,7 +53,6 @@ RSpec.feature "Tasks", type: :feature do
     end
 
     scenario "delete task" do
-      task = create(:task)
       visit root_path
       expect(page).to have_text "task test"
       find("a[href='#{task_path(task)}']").click
@@ -61,15 +62,18 @@ RSpec.feature "Tasks", type: :feature do
     end
 
     scenario "sorted by created time" do
-      user = create(:user)
-      task1 = Task.create(id: 0, title:'title1', created_at:DateTime.now+1.hour, start_time: DateTime.now, end_time: DateTime.now, 
-        status: 'pending', tag: 'test', priority: 'low', user_id: user.id)
-      task2 = Task.create(id: 1, title:'title2', created_at:DateTime.now, start_time: DateTime.now, end_time: DateTime.now, 
-        status: 'pending', tag: 'test', priority: 'low', user_id: user.id)
-      task3 = Task.create(id: 2, title:'title3', created_at:DateTime.now+2.hour, start_time: DateTime.now, end_time: DateTime.now, 
-        status: 'pending', tag: 'test', priority: 'low', user_id: user.id)
+      tasks[0].created_at = DateTime.now+1.hour
+      tasks[0].title = 'title1'
+      tasks[1].created_at = DateTime.now
+      tasks[1].title = 'title2'
+      task.created_at = DateTime.now+2.hour
+
+      expect(task.save).to eq(true)
+      expect(tasks[0].save).to eq(true)
+      expect(tasks[1].save).to eq(true)
+      
       visit root_path
-      expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "title3")
+      expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "task test")
       expect(page).to have_css("#task_table tr:nth-child(3) td:nth-child(1)", :text => "title1")
       expect(page).to have_css("#task_table tr:nth-child(4) td:nth-child(1)", :text => "title2")
     end
@@ -77,7 +81,6 @@ RSpec.feature "Tasks", type: :feature do
 
   context "new task page" do
     scenario "create task" do
-      user = create(:user)
       visit new_task_path
       fill_in 'task_title', with: 'test title'
       fill_in 'task_user_id', with: user.id
@@ -88,7 +91,6 @@ RSpec.feature "Tasks", type: :feature do
     end
 
     scenario "create task requires title" do
-      user = create(:user)
       visit new_task_path
       fill_in 'task_user_id', with: user.id
       click_button I18n.t("button.submit")
