@@ -5,7 +5,7 @@
 
 <table class = "table">
     <tr>
-      <% t("activerecord.attributes.task").map { |key, value| value }[0..-2].each do |tag|%>
+      <% t("activerecord.attributes.task").values[0..-2].each do |tag|%>
         <th><%= tag %></th>
       <% end %>
       <th><%= t("action.title") %></th>
