@@ -15,5 +15,9 @@ RSpec.describe Task, type: :model do
             new_task.user = nil
             expect(new_task.save).to eq(false)  
         end
+        it 'task requires title' do
+            new_task.title = nil
+            expect(new_task.save).to eq(false)  
+        end
     end
 end

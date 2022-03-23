@@ -37,3 +37,4 @@ zh-TW:
     delete: 任務已刪除！
     update: 任務更新成功！
     confirm: 確認刪除嗎？
+    title_require: 標題為必填

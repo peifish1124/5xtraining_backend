@@ -3,7 +3,7 @@
 <br>
 <%= link_to t("action.new"), new_task_path, class: "btn btn-primary"%>
 
-<table class = "table">
+<table class = "table" id = "task_table">
     <tr>
       <% t("activerecord.attributes.task").values[0..-2].each do |tag|%>
         <th><%= tag %></th>
