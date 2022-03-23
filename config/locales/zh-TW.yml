@@ -1,0 +1,40 @@
+zh-TW:
+  activerecord:
+    models:
+      task: 任務
+    attributes:
+      task:
+        title: 標題
+        content: 內容
+        start_time: 開始時間
+        end_time: 結束時間
+        status: 狀態
+        priority: 優先順序
+        tag: 分類標籤
+        user_id: 使用者序號
+  page:
+    index_page: 任務列表
+    new_page: 新增任務
+    edit_page: 編輯任務
+  action:
+    new: 新增任務
+    edit: 編輯
+    delete: 刪除
+    title: 處理
+  back: 回任務列表
+  status:
+    pending: 待處理
+    ongoing: 進行中
+    done: 已完成
+  priority:
+    low: 低
+    middle: 中
+    high: 高
+  button:
+    submit: 確認送出
+  notice:
+    new: 新增任務成功！
+    delete: 任務已刪除！
+    update: 任務更新成功！
+    confirm: 確認刪除嗎？
+    title_require: 標題為必填

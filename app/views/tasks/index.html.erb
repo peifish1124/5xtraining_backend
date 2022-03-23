@@ -1,0 +1,28 @@
+<h1><%= t("page.index_page") %></h1>
+
+<br>
+<%= link_to t("action.new"), new_task_path, class: "btn btn-primary"%>
+
+<table class = "table" id = "task_table">
+    <tr>
+      <% t("activerecord.attributes.task").values[0..-2].each do |tag|%>
+        <th><%= tag %></th>
+      <% end %>
+      <th><%= t("action.title") %></th>
+    </tr>
+    <% @tasks.each do |task| %>
+    <tr>
+        <td><%= task.title %></td>
+        <td><%= task.content %></td>
+        <td><%= task.start_time.strftime("%Y/%m/%d at %I:%M%p") %></td>
+        <td><%= task.end_time.strftime("%Y/%m/%d at %I:%M%p") %></td>
+        <td><%= task.status %></td>
+        <td><%= task.priority %></td>
+        <td><%= task.tag %></td>
+        <td>
+          <%= link_to t("action.edit"), edit_task_path(task) %>
+          <%= link_to t("action.delete"), task_path(task), method: "delete", data: { turbo_confirm: t("notice.confirm"), turbo_method: "delete" } %>
+        </td>
+    </tr>
+    <% end %>
+</table>

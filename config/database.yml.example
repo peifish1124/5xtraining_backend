@@ -11,17 +11,33 @@ default: &default
 
 development:
   <<: *default
+<<<<<<< HEAD:config/database.yml
   database: 5xtraining_backend_with_pg_development
   username: postgres
   password: 11241205
+=======
+  database: 5xtraining_backend_development
+  username: 
+  password: 
+>>>>>>> 0430cfd904ae1a9a9c0a1fe958a519f2a660b25e:config/database.yml.example
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
+<<<<<<< HEAD:config/database.yml
   database: 5xtraining_backend_with_pg_test
 
 production:
   <<: *default
   database: 5xtraining_backend_with_pg_production
+=======
+  database: 5xtraining_backend_test
+  username: 
+  password: 
+
+production:
+  <<: *default
+  database: 5xtraining_backend_production
+>>>>>>> 0430cfd904ae1a9a9c0a1fe958a519f2a660b25e:config/database.yml.example
