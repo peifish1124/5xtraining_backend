@@ -20,6 +20,7 @@ RSpec.feature "Tasks", type: :feature do
       expect(page).to have_text Task.human_attribute_name(:status)
       expect(page).to have_text Task.human_attribute_name(:priority)
       expect(page).to have_text Task.human_attribute_name(:tag)
+      expect(page).to have_text Task.human_attribute_name(:created_at)
       expect(page).to have_text I18n.t("action.title")
     end
 
@@ -32,6 +33,7 @@ RSpec.feature "Tasks", type: :feature do
       expect(page).to have_text "進行中"
       expect(page).to have_text "高"
       expect(page).to have_text "test"
+      expect(page).to have_text "2022/03/17 at 12:00AM"
     end
 
     scenario "has link to new task page" do
@@ -61,21 +63,42 @@ RSpec.feature "Tasks", type: :feature do
       expect(page).not_to have_text "task test"
     end
 
-    scenario "sorted by created time" do
-      tasks[0].created_at = DateTime.now+1.hour
-      tasks[0].title = 'title1'
-      tasks[1].created_at = DateTime.now
-      tasks[1].title = 'title2'
-      task.created_at = DateTime.now+2.hour
+  end
 
-      expect(task.save).to eq(true)
-      expect(tasks[0].save).to eq(true)
-      expect(tasks[1].save).to eq(true)
-      
+  context "sort by different ways" do
+    scenario "sorted by created time" do
+      travel_to(Time.new(2100, 1, 1, 0, 0, 0)){ create(:task, title: "title1")}
+      travel_to(Time.new(2100, 1, 2, 0, 0, 0)){ create(:task, title: "title2") }
+
       visit root_path
+      click_link Task.human_attribute_name(:created_at)
       expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "task test")
       expect(page).to have_css("#task_table tr:nth-child(3) td:nth-child(1)", :text => "title1")
       expect(page).to have_css("#task_table tr:nth-child(4) td:nth-child(1)", :text => "title2")
+    end
+
+    scenario "sorted by end time" do
+      tasks[0].update(end_time: DateTime.now+1.hour, title: 'title1')
+      tasks[1].update(end_time: DateTime.now+2.hour, title: 'title2')
+      task.update(end_time: DateTime.now)
+
+      visit root_path
+      click_link Task.human_attribute_name(:end_time)
+      expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "task test")
+      expect(page).to have_css("#task_table tr:nth-child(3) td:nth-child(1)", :text => "title1")
+      expect(page).to have_css("#task_table tr:nth-child(4) td:nth-child(1)", :text => "title2")
+    end
+
+    scenario "sorted by priority" do
+      tasks[0].update(priority: 1, title: 'title1')
+      tasks[1].update(priority: 0, title: 'title2')
+      task.update(priority: 2)
+        #.map{[t("priority.#{}"),]}
+      visit root_path
+      click_link Task.human_attribute_name(:priority)
+      expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "title2")
+      expect(page).to have_css("#task_table tr:nth-child(3) td:nth-child(1)", :text => "title1")
+      expect(page).to have_css("#task_table tr:nth-child(4) td:nth-child(1)", :text => "task test")
     end
   end
 

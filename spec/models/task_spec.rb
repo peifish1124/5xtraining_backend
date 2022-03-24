@@ -1,13 +1,8 @@
 require 'rails_helper'
 RSpec.describe Task, type: :model do
     describe 'Model Task spec/unit test' do
-        let(:new_user) {
-            User.new(name: 'Peifish')
-        }
-        let(:new_task) {
-            Task.new(title:'title', content:'content', status: '進行中', tag: 'test', priority: '低', 
-                    start_time: DateTime.now, end_time: DateTime.now, user: new_user)
-        }
+        let(:new_user) { create(:user) }
+        let(:new_task) { create(:task) }
         it 'task should save successfully' do 
             expect(new_task.save).to eq(true)
         end
