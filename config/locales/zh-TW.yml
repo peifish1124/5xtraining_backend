@@ -12,6 +12,7 @@ zh-TW:
         priority: 優先順序
         tag: 分類標籤
         user_id: 使用者序號
+        created_at: 創建時間
   page:
     index_page: 任務列表
     new_page: 新增任務

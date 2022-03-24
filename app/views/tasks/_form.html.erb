@@ -10,7 +10,7 @@
   
   <%= f.select :status, t(:status).values %><br/>
 
-  <%= f.select :priority, t(:priority).values %><br/>
+  <%= f.select :priority, [[t("priority.low"), "low"], [t("priority.middle"), "middle"], [t("priority.high"), "high"]] %><br/>
 
   <%= f.text_field :tag %><br/>
 

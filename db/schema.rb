@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_16_043722) do
     t.integer "user_id"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.string "priority"
+    t.integer "priority"
     t.string "status"
     t.string "title"
     t.text "content"
