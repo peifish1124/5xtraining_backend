@@ -67,21 +67,14 @@ RSpec.feature "Tasks", type: :feature do
 
   context "sort by different ways" do
     scenario "sorted by created time" do
-      tasks[0].created_at = DateTime.now+1.hour 
-      tasks[0].title = 'title1'
-      tasks[1].created_at = DateTime.now
-      tasks[1].title = 'title2'
-      task.created_at = DateTime.now+2.hour
-
-      expect(task.save).to eq(true)
-      expect(tasks[0].save).to eq(true)
-      expect(tasks[1].save).to eq(true)
+      travel_to(Time.new(2100, 1, 1, 0, 0, 0)){ create(:task, title: "title1")}
+      travel_to(Time.new(2100, 1, 2, 0, 0, 0)){ create(:task, title: "title2") }
 
       visit root_path
       click_link Task.human_attribute_name(:created_at)
-      expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "title2")
+      expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "task test")
       expect(page).to have_css("#task_table tr:nth-child(3) td:nth-child(1)", :text => "title1")
-      expect(page).to have_css("#task_table tr:nth-child(4) td:nth-child(1)", :text => "task test")
+      expect(page).to have_css("#task_table tr:nth-child(4) td:nth-child(1)", :text => "title2")
     end
 
     scenario "sorted by end time" do
