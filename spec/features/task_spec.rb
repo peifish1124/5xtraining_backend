@@ -78,15 +78,9 @@ RSpec.feature "Tasks", type: :feature do
     end
 
     scenario "sorted by end time" do
-      tasks[0].end_time = DateTime.now+1.hour
-      tasks[0].title = 'title1'
-      tasks[1].end_time = DateTime.now+2.hour
-      tasks[1].title = 'title2'
-      task.end_time = DateTime.now
-
-      expect(task.save).to eq(true)
-      expect(tasks[0].save).to eq(true)
-      expect(tasks[1].save).to eq(true)
+      tasks[0].update(end_time: DateTime.now+1.hour, title: 'title1')
+      tasks[1].update(end_time: DateTime.now+2.hour, title: 'title2')
+      task.update(end_time: DateTime.now)
 
       visit root_path
       click_link Task.human_attribute_name(:end_time)
@@ -96,16 +90,10 @@ RSpec.feature "Tasks", type: :feature do
     end
 
     scenario "sorted by priority" do
-      tasks[0].priority = 1
-      tasks[0].title = 'title1'
-      tasks[1].priority = 0
-      tasks[1].title = 'title2'
-      task.priority = 2
-
-      expect(task.save).to eq(true)
-      expect(tasks[0].save).to eq(true)
-      expect(tasks[1].save).to eq(true)
-          
+      tasks[0].update(priority: 1, title: 'title1')
+      tasks[1].update(priority: 0, title: 'title2')
+      task.update(priority: 2)
+        #.map{[t("priority.#{}"),]}
       visit root_path
       click_link Task.human_attribute_name(:priority)
       expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "title2")
