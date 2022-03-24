@@ -93,7 +93,7 @@ RSpec.feature "Tasks", type: :feature do
       tasks[0].update(priority: 1, title: 'title1')
       tasks[1].update(priority: 0, title: 'title2')
       task.update(priority: 2)
-        #.map{[t("priority.#{}"),]}
+        
       visit root_path
       click_link Task.human_attribute_name(:priority)
       expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "title2")
