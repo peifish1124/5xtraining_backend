@@ -22,11 +22,13 @@ zh-TW:
     edit: 編輯
     delete: 刪除
     title: 處理
+    update_status: 狀態更新
   back: 回任務列表
   status:
     pending: 待處理
     ongoing: 進行中
     done: 已完成
+    all: 所有狀態
   priority:
     low: 低
     middle: 中
@@ -39,3 +41,7 @@ zh-TW:
     update: 任務更新成功！
     confirm: 確認刪除嗎？
     title_require: 標題為必填
+  status_action:
+    do_it: 開始處理
+    finish_it: 完成任務
+    unfinish_it: 尚未完成

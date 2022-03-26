@@ -4,6 +4,9 @@ class TasksController < ApplicationController
     def index
         @q = Task.ransack(params[:q])
         @tasks = @q.result(distinct: true)
+        if params[:id]
+            change_state
+        end
     end
 
     def new
@@ -42,5 +45,18 @@ class TasksController < ApplicationController
 
     def find_task
         @task = Task.find_by(id: params[:id])
+    end
+
+    def change_state
+        find_task
+        if params[:event] == 'do_it' && @task.pending?
+          @task.do_it! 
+        elsif params[:event] == 'finish_it' && @task.ongoing?
+          @task.finish_it!
+        elsif params[:event] == 'unfinish_it' && @task.done?
+          @task.unfinish_it!
+        else
+          redirect_to tasks_path
+        end
     end
 end
