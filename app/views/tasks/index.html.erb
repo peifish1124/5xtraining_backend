@@ -3,20 +3,21 @@
 <br>
 <%= link_to t("action.new"), new_task_path, class: "btn btn-primary"%>
 
-<%= search_form_for @q do |f| %>
-  <%= f.label :title %>
-  <%= f.search_field :title_cont_any %>
-  <br>
-  <%= f.label :status %>
-  <%= f.radio_button :status_eq, '' %>
-  <%= f.label t('status.all') %>
-  <% t("status").keys[0..-2].each do |tag|%>
-      <%= f.radio_button :status_eq, tag %>
-      <%= f.label t(tag, scope: :status) %>
+<div class = "navbar-form" style = "margin-top: -8vh; margin-left: 53vw; margin-bottom: 3vh;">
+  <%= search_form_for @q do |f| %>
+    <%= f.label :title %>
+    <%= f.search_field :title_cont_any %>
+    <br>
+    <%= f.label :status %>
+    <%= f.radio_button :status_eq, '' %>
+    <%= f.label t('status.all') %>
+    <% t("status").keys[0..-2].each do |tag|%>
+        <%= f.radio_button :status_eq, tag %>
+        <%= f.label t(tag, scope: :status) %>
+    <% end %>
+    <span style = "margin-left: 3px;"><%= f.submit %></span>
   <% end %>
-  <br>
-  <%= f.submit %>
-<% end %>
+</div>
 
 <table class = "table" id = "task_table">
     <tr>
@@ -57,3 +58,5 @@
     </tr>
     <% end %>
 </table>
+
+<%= paginate @tasks %>

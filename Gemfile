@@ -15,6 +15,7 @@ gem 'pg', '~> 1.3', '>= 1.3.4'
 gem 'i18n'
 gem 'ransack'
 gem 'aasm'
+gem 'kaminari'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"

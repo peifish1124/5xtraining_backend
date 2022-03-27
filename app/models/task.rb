@@ -1,4 +1,6 @@
 class Task < ApplicationRecord
+    paginates_per 5
+
     include AASM
 
     belongs_to :user
