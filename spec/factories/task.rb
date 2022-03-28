@@ -1,9 +1,9 @@
 FactoryBot.define do
     factory :task do
         association :user, factory: :user
-        title {'task test'}
-        content {'this is task test'}
-        status {'進行中'}
+        title {'title'}
+        content {'content'}
+        status {'ongoing'}
         priority {2}
         tag {'test'}
         start_time {'2022-03-18 00:00:00'}

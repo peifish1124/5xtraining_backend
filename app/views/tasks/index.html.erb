@@ -3,6 +3,22 @@
 <br>
 <%= link_to t("action.new"), new_task_path, class: "btn btn-primary"%>
 
+<div class = "navbar-form" style = "margin-top: -8vh; margin-left: 53vw; margin-bottom: 3vh;">
+  <%= search_form_for @q do |f| %>
+    <%= f.label :title %>
+    <%= f.search_field :title_cont_any %>
+    <br>
+    <%= f.label :status %>
+    <%= f.radio_button :status_eq, '' %>
+    <%= f.label t('status.all') %>
+    <% t("status").keys[0..-2].each do |tag|%>
+        <%= f.radio_button :status_eq, tag %>
+        <%= f.label t(tag, scope: :status) %>
+    <% end %>
+    <span style = "margin-left: 3px;"><%= f.submit %></span>
+  <% end %>
+</div>
+
 <table class = "table" id = "task_table">
     <tr>
       <th><%= @tasks.human_attribute_name(:title) %></th>
@@ -13,6 +29,7 @@
       <th><%= sort_link(@q, :priority) %></th>
       <th><%= @tasks.human_attribute_name(:tag) %></th>
       <th><%= sort_link(@q, :created_at) %></th>
+      <th><%= t("action.update_status") %></th>
       <th><%= t("action.title") %></th>
     </tr>
     <% @tasks.each do |task| %>
@@ -21,10 +38,19 @@
         <td><%= task.content %></td>
         <td><%= task.start_time.strftime("%Y/%m/%d at %I:%M%p") %></td>
         <td><%= task.end_time.strftime("%Y/%m/%d at %I:%M%p") %></td>
-        <td><%= task.status %></td>
+        <td><%= t(task.status, scope: :status) %></td>
         <td><%= t(task.priority, scope: :priority) %></td>
         <td><%= task.tag %></td>
         <td><%= task.created_at.strftime("%Y/%m/%d at %I:%M%p") %></td>
+        <td>
+          <% if task.status == 'pending' %>
+            <%= button_to t("status_action.do_it"), do_it_task_path(task), method: :put %>
+          <% elsif task.status == 'ongoing' %>
+            <%= button_to t("status_action.finish_it"), finish_it_task_path(task), method: :put %>
+          <% else %>
+            <%= button_to t("status_action.unfinish_it"), unfinish_it_task_path(task), method: :put %>
+          <% end %>
+        </td>
         <td>
           <%= link_to t("action.edit"), edit_task_path(task) %>
           <%= link_to t("action.delete"), task_path(task), method: "delete", data: { turbo_confirm: t("notice.confirm"), turbo_method: "delete" } %>
@@ -32,3 +58,5 @@
     </tr>
     <% end %>
 </table>
+
+<%= paginate @tasks %>

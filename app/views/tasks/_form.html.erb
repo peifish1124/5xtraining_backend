@@ -7,8 +7,6 @@
   <%=f.datetime_select :start_time, :locale => 'en'%><br/>
 
   <%=f.datetime_select :end_time, :locale => 'en'%><br/>
-  
-  <%= f.select :status, t(:status).values %><br/>
 
   <%= f.select :priority, Task.priorities.map {|key, value| [t("priority.#{key}"),key] } %><br/>
 

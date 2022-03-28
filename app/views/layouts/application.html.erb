@@ -12,7 +12,11 @@
 
   <body>
     <div class = "container">
-      <%= notice %>
+      <% if notice%>
+        <div class="alert alert-success" role="alert">
+          <%= notice %>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
   </body>

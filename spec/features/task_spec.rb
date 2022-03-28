@@ -21,13 +21,14 @@ RSpec.feature "Tasks", type: :feature do
       expect(page).to have_text Task.human_attribute_name(:priority)
       expect(page).to have_text Task.human_attribute_name(:tag)
       expect(page).to have_text Task.human_attribute_name(:created_at)
+      expect(page).to have_text I18n.t("action.update_status")
       expect(page).to have_text I18n.t("action.title")
     end
 
     scenario "has tasks list body" do
       visit root_path
-      expect(page).to have_text "task test"
-      expect(page).to have_text "this is task test"
+      expect(page).to have_text "title"
+      expect(page).to have_text "content"
       expect(page).to have_text "2022/03/18 at 12:00AM"
       expect(page).to have_text "2022/03/19 at 12:00AM"
       expect(page).to have_text "進行中"
@@ -46,7 +47,7 @@ RSpec.feature "Tasks", type: :feature do
       visit root_path
       find("a[href='#{edit_task_path(task)}']").click
       expect(page).to have_content I18n.t("page.edit_page")
-      expect(page).to have_field("task_title", with: "task test")
+      expect(page).to have_field("task_title", with: "title")
       fill_in "task_title", with: "edit task name"
       click_button I18n.t("button.submit")
       expect(page).to have_text I18n.t("notice.update")
@@ -56,13 +57,34 @@ RSpec.feature "Tasks", type: :feature do
 
     scenario "delete task" do
       visit root_path
-      expect(page).to have_text "task test"
+      expect(page).to have_text "title"
       find("a[href='#{task_path(task)}']").click
       expect(page).to have_text I18n.t("notice.delete")
       expect(page).to have_text I18n.t("page.index_page")
-      expect(page).not_to have_text "task test"
+      expect(page).not_to have_text "title"
     end
 
+  end
+
+  context "search by different ways" do
+    scenario "search by title" do
+      tasks[0].update(title: 'sort')
+      visit root_path
+
+      fill_in 'q_title_cont_any', with: 'sort'
+      click_button 'commit'
+
+      expect(page).not_to have_text('title')
+    end
+
+    scenario "search by status" do 
+      tasks[0].update(status: 'pending', title: 'sort')
+      visit root_path 
+      find(:css , '#q_status_eq_pending').click
+      click_button 'commit'
+
+      expect(page).not_to have_text('title')
+    end
   end
 
   context "sort by different ways" do
@@ -72,7 +94,7 @@ RSpec.feature "Tasks", type: :feature do
 
       visit root_path
       click_link Task.human_attribute_name(:created_at)
-      expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "task test")
+      expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "title")
       expect(page).to have_css("#task_table tr:nth-child(3) td:nth-child(1)", :text => "title1")
       expect(page).to have_css("#task_table tr:nth-child(4) td:nth-child(1)", :text => "title2")
     end
@@ -84,7 +106,7 @@ RSpec.feature "Tasks", type: :feature do
 
       visit root_path
       click_link Task.human_attribute_name(:end_time)
-      expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "task test")
+      expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "title")
       expect(page).to have_css("#task_table tr:nth-child(3) td:nth-child(1)", :text => "title1")
       expect(page).to have_css("#task_table tr:nth-child(4) td:nth-child(1)", :text => "title2")
     end
@@ -98,7 +120,7 @@ RSpec.feature "Tasks", type: :feature do
       click_link Task.human_attribute_name(:priority)
       expect(page).to have_css("#task_table tr:nth-child(2) td:nth-child(1)", :text => "title2")
       expect(page).to have_css("#task_table tr:nth-child(3) td:nth-child(1)", :text => "title1")
-      expect(page).to have_css("#task_table tr:nth-child(4) td:nth-child(1)", :text => "task test")
+      expect(page).to have_css("#task_table tr:nth-child(4) td:nth-child(1)", :text => "title")
     end
   end
 

@@ -1,9 +1,9 @@
 class TasksController < ApplicationController
-    before_action :find_task, only: [:edit, :update, :destroy]
+    before_action :find_task, only: [:edit, :update, :destroy, :do_it, :finish_it, :unfinish_it]
 
     def index
         @q = Task.ransack(params[:q])
-        @tasks = @q.result(distinct: true)
+        @tasks = @q.result(distinct: true).page(params[:page]).per(5)
     end
 
     def new
@@ -33,6 +33,21 @@ class TasksController < ApplicationController
     def destroy
         @task.destroy if @task
         redirect_to tasks_path, notice: I18n.t('notice.delete')
+    end
+
+    def do_it
+        @task.do_it!
+        redirect_back_or_to tasks_path
+    end
+
+    def finish_it
+        @task.finish_it!
+        redirect_back_or_to tasks_path
+    end
+
+    def unfinish_it
+        @task.unfinish_it!
+        redirect_back_or_to tasks_path
     end
 
     private
