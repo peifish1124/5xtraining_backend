@@ -1,26 +1,40 @@
 class Task < ApplicationRecord
     paginates_per 5
 
-    include AASM
-
     belongs_to :user
     validates :title, presence: { message: I18n.t('notice.title_require') }
     enum priority: { low: 0, middle: 1, high: 2 }
 
-    aasm column: :status do 
-        state :pending, initial: true
-        state :ongoing, :done
-    
-        event :do_it do
-            transitions from: :pending, to: :ongoing
+    def do_it
+        if status == 'pending'
+         self.status = 'ongoing'
         end
+    end
 
-        event :finish_it do
-            transitions from: :ongoing, to: :done
-        end
+    def do_it!
+        do_it
+        save!
+      end
 
-        event :unfinish_it do
-            transitions from: :done, to: :ongoing
+    def finish_it
+        if status == 'ongoing'
+         self.status = 'done'
         end
+    end
+
+    def finish_it!
+        finish_it
+        save!
+    end
+
+    def unfinish_it
+        if status == 'done'
+         self.status = 'ongoing'
+        end
+    end
+
+    def unfinish_it!
+        unfinish_it
+        save!
     end
 end

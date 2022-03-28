@@ -1,12 +1,9 @@
 class TasksController < ApplicationController
-    before_action :find_task, only: [:edit, :update, :destroy]
+    before_action :find_task, only: [:edit, :update, :destroy, :do_it, :finish_it, :unfinish_it]
 
     def index
         @q = Task.ransack(params[:q])
         @tasks = @q.result(distinct: true).page(params[:page]).per(5)
-        if params[:id]
-            change_state
-        end
     end
 
     def new
@@ -38,6 +35,21 @@ class TasksController < ApplicationController
         redirect_to tasks_path, notice: I18n.t('notice.delete')
     end
 
+    def do_it
+        @task.do_it!
+        redirect_back_or_to tasks_path
+    end
+
+    def finish_it
+        @task.finish_it!
+        redirect_back_or_to tasks_path
+    end
+
+    def unfinish_it
+        @task.unfinish_it!
+        redirect_back_or_to tasks_path
+    end
+
     private
     def task_params
         params.require(:task).permit(:title, :content, :start_time, :end_time, :status, :priority, :tag, :user_id)
@@ -45,18 +57,5 @@ class TasksController < ApplicationController
 
     def find_task
         @task = Task.find_by(id: params[:id])
-    end
-
-    def change_state
-        find_task
-        if params[:event] == 'do_it' && @task.pending?
-          @task.do_it! 
-        elsif params[:event] == 'finish_it' && @task.ongoing?
-          @task.finish_it!
-        elsif params[:event] == 'unfinish_it' && @task.done?
-          @task.unfinish_it!
-        else
-          redirect_to tasks_path
-        end
     end
 end

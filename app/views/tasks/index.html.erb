@@ -43,12 +43,12 @@
         <td><%= task.tag %></td>
         <td><%= task.created_at.strftime("%Y/%m/%d at %I:%M%p") %></td>
         <td>
-          <% if task.pending? %>
-            <%= link_to t("status_action.do_it"), tasks_path(id: task.id, event: 'do_it'), class: "btn btn-primary" %>
-          <% elsif task.ongoing? %>
-            <%= link_to t("status_action.finish_it"), tasks_path(id: task.id, event: 'finish_it'), class: "btn btn-success" %>
+          <% if task.status == 'pending' %>
+            <%= button_to t("status_action.do_it"), do_it_task_path(task), method: :put %>
+          <% elsif task.status == 'ongoing' %>
+            <%= button_to t("status_action.finish_it"), finish_it_task_path(task), method: :put %>
           <% else %>
-            <%= link_to t("status_action.unfinish_it"), tasks_path(id: task.id, event: 'unfinish_it'), class: "btn btn-warning" %>
+            <%= button_to t("status_action.unfinish_it"), unfinish_it_task_path(task), method: :put %>
           <% end %>
         </td>
         <td>
