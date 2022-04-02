@@ -1,8 +1,9 @@
 class TasksController < ApplicationController
     before_action :find_task, only: [:edit, :update, :destroy, :do_it, :finish_it, :unfinish_it]
+    before_action :logged_in_user, only: [:index, :new, :create, :edit, :update, :destroy]
 
     def index
-        @q = Task.ransack(params[:q])
+        @q = current_user.tasks.ransack(params[:q])
         @tasks = @q.result(distinct: true).page(params[:page]).per(5)
     end
 
@@ -11,7 +12,8 @@ class TasksController < ApplicationController
     end
 
     def create
-        @task = Task.new(task_params)
+        @task = current_user.tasks.create(task_params)
+        @task.status = 'pending'
         if @task.save 
             redirect_to tasks_path, notice: I18n.t('notice.new')
         else 
@@ -52,7 +54,7 @@ class TasksController < ApplicationController
 
     private
     def task_params
-        params.require(:task).permit(:title, :content, :start_time, :end_time, :status, :priority, :tag, :user_id)
+        params.require(:task).permit(:title, :content, :start_time, :end_time, :status, :priority, :tag)
     end
 
     def find_task

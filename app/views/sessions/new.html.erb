@@ -1,0 +1,13 @@
+<h1><%= t("page.login_page") %></h1>
+<br>
+<%= form_with(model: @user, url: login_path , method: 'post', local: true) do |f| %>
+  <%= f.label User.human_attribute_name(:email) %>
+  <%= f.text_field :email %><br>
+  <%= f.label User.human_attribute_name(:password) %>
+  <%= f.password_field :password %><br><br>
+  <%= f.submit t('action.login') %>
+<% end %>
+
+<br>
+<%= t('notice.no_account')%>
+<%= link_to t('action.signup'), sign_up_path %>
