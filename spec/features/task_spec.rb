@@ -1,12 +1,15 @@
 require 'rails_helper'
-require './spec/helpers/helpers'
+require './spec/shared/user'
 
 RSpec.configure do |c|
-  c.include Helpers
+  c.include_context "user"
 end
 
 RSpec.feature "Tasks", type: :feature do
+
   before do 
+    sign_up
+    login
     create_tasks
   end
 

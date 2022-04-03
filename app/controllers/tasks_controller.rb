@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
     before_action :find_task, only: [:edit, :update, :destroy, :do_it, :finish_it, :unfinish_it]
-    before_action :logged_in_user, only: [:index, :new, :create, :edit, :update, :destroy]
+    before_action :is_logged_in?, only: [:index, :new, :create, :edit, :update, :destroy]
 
     def index
         @q = current_user.tasks.ransack(params[:q])

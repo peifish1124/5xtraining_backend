@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#destroy'
 
   #user
-  get 'sign_up', to: 'users#new'
-  post 'sign_up', to: 'users#create'
-  resources :users, except: [:new, :create]
+  get 'sign_up', to: 'registrations#new'
+  post 'sign_up', to: 'registrations#create'
+  resources :registrations, except: [:new, :create]
 end
