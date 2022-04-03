@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
     # login
     def create
-        @user = User.authenticate(params[:email].downcase, params[:password])
+        @user = User.authenticate(params[:email], params[:password])
         if @user
             log_in(@user)
             redirect_to tasks_path(@user), notice: I18n.t('notice.login')

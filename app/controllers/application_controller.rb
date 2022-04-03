@@ -14,6 +14,6 @@ class ApplicationController < ActionController::Base
     end
 
     def is_logged_in?
-        redirect_to login_path, notice: I18n.t('notice.not_login') if current_user.nil?
+        redirect_to login_path, notice: I18n.t('notice.not_login') unless current_user
     end
 end

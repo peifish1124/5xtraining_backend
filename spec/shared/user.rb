@@ -1,5 +1,5 @@
 RSpec.shared_context 'user' do 
-    let!(:user_params) do
+    let(:user_params) do
       {name: 'Rail', 
        email: 'rail@gmail.com', 
        password: '1234'}
