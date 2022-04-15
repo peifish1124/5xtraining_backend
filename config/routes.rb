@@ -15,8 +15,13 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
 
-  #user
+  #registration
   get 'sign_up', to: 'registrations#new'
   post 'sign_up', to: 'registrations#create'
   resources :registrations, except: [:new, :create]
+
+  #user
+  namespace :admin do
+    resources :users
+  end
 end

@@ -1,0 +1,47 @@
+<h1><%= t("page.index_page") %></h1>
+
+<br>
+<div class = "navbar-form" style = "margin-top: -8vh; margin-left: 53vw; margin-bottom: 3vh;">
+  <%= search_form_for @q do |f| %>
+    <%= f.label :title %>
+    <%= f.search_field :title_cont_any %>
+    <br>
+    <%= f.label :status %>
+    <%= f.radio_button :status_eq, '' %>
+    <%= f.label t('status.all') %>
+    <% t("status").keys[0..-2].each do |tag|%>
+        <%= f.radio_button :status_eq, tag %>
+        <%= f.label t(tag, scope: :status) %>
+    <% end %>
+    <span style = "margin-left: 3px;"><%= f.submit %></span>
+  <% end %>
+</div>
+
+<table class = "table" id = "task_table">
+    <tr>
+      <th><%= @tasks.human_attribute_name(:title) %></th>
+      <th><%= @tasks.human_attribute_name(:content) %></th>
+      <th><%= @tasks.human_attribute_name(:start_time) %></th>
+      <th><%= sort_link(@q, :end_time) %></th>
+      <th><%= @tasks.human_attribute_name(:status) %></th>
+      <th><%= sort_link(@q, :priority) %></th>
+      <th><%= @tasks.human_attribute_name(:tag) %></th>
+      <th><%= sort_link(@q, :created_at) %></th>
+    </tr>
+    <% @tasks.each do |task| %>
+    <tr>
+        <td><%= task.title %></td>
+        <td><%= task.content %></td>
+        <td><%= task.start_time.strftime("%Y/%m/%d at %I:%M%p") %></td>
+        <td><%= task.end_time.strftime("%Y/%m/%d at %I:%M%p") %></td>
+        <td><%= t(task.status, scope: :status) %></td>
+        <td><%= t(task.priority, scope: :priority) %></td>
+        <td><%= task.tag %></td>
+        <td><%= task.created_at.strftime("%Y/%m/%d at %I:%M%p") %></td>
+    </tr>
+    <% end %>
+</table>
+
+<%= paginate @tasks %>
+<br><br>
+<%= link_to t('back_to_admin'), admin_users_path %>

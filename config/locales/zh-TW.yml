@@ -23,7 +23,10 @@ zh-TW:
     new_page: 新增任務
     edit_page: 編輯任務
     login_page: 使用者登入
-    new_user_page: 使用者註冊
+    sign_up_page: 使用者註冊
+    new_user_page: 新增使用者
+    user_index_page: 使用者管理
+    user_edit_page: 編輯使用者
   action:
     new: 新增任務
     edit: 編輯
@@ -33,8 +36,13 @@ zh-TW:
     login: 登入
     logout: 登出
     signup: 註冊
+    new_user: 新增使用者
+
   back: 回任務列表
   back_to_login: 回登入頁面
+  back_to_admin: 回管理頁面
+  tasks_num: 任務數量
+  
   status:
     pending: 待處理
     ongoing: 進行中
@@ -58,6 +66,9 @@ zh-TW:
     not_login: 您尚未登入
     signup: 成功註冊！
     no_account: 沒有帳號嗎？
+    create_user: 新增使用者成功！
+    delete_user: 使用者已刪除！
+    update_user: 使用者資訊已更新！
   status_action:
     do_it: 開始處理
     finish_it: 完成任務
