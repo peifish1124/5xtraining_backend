@@ -1,13 +1,15 @@
-<h1><%=t('page.sign_up_page')%></h1>
+<h1><%= t('page.user_edit_page')%></h1>
+
 <br>
-<%= form_for @user, url: sign_up_path, method: 'post' do |f| %>
+<%= form_for @user, url: admin_user_path(@user), method: 'put' do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %><br>
   <%= f.label :email %>
   <%= f.text_field :email %><br>
   <%= f.label :password %>
   <%= f.password_field :password %><br><br>
-  <%= f.submit t('action.signup') %>
+  <%= f.submit t("button.submit") %>
 <% end %>
 <br>
-<%= link_to t("back_to_login"), login_path %>
+
+<%= link_to t('back_to_admin'), admin_users_path %>
