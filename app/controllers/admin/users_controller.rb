@@ -28,8 +28,11 @@ class Admin::UsersController < ApplicationController
     end
 
     def destroy
-        @user.destroy
-        redirect_to admin_users_path, notice: I18n.t('notice.delete_user')
+        if @user.destroy
+            redirect_to admin_users_path, notice: I18n.t('notice.delete_user')
+        else
+            redirect_to admin_users_path, alert: I18n.t('notice.no_admin')
+        end
     end
 
     def update
@@ -46,6 +49,6 @@ class Admin::UsersController < ApplicationController
     end
 
     def user_params
-        params.require(:user).permit(:name, :email, :password)
+        params.require(:user).permit(:name, :email, :password, :admin)
     end
 end

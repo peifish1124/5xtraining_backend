@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_29_053853) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_16_142846) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "tag_relations", force: :cascade do |t|
+    t.integer "tag_id", null: false
+    t.integer "task_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "tasks", force: :cascade do |t|
     t.integer "user_id"
@@ -22,7 +35,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_29_053853) do
     t.string "status"
     t.string "title"
     t.text "content"
-    t.string "tag"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -33,6 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_29_053853) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "email"
+    t.boolean "admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

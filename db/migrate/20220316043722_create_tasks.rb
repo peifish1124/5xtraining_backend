@@ -8,7 +8,6 @@ class CreateTasks < ActiveRecord::Migration[7.0]
       t.string :status
       t.string :title
       t.text :content
-      t.string :tag
       t.timestamps
     end
   end

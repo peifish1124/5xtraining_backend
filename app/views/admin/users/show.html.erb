@@ -25,7 +25,7 @@
       <th><%= sort_link(@q, :end_time) %></th>
       <th><%= @tasks.human_attribute_name(:status) %></th>
       <th><%= sort_link(@q, :priority) %></th>
-      <th><%= @tasks.human_attribute_name(:tag) %></th>
+      <th><%= t("tag") %></th>
       <th><%= sort_link(@q, :created_at) %></th>
     </tr>
     <% @tasks.each do |task| %>
@@ -36,7 +36,6 @@
         <td><%= task.end_time.strftime("%Y/%m/%d at %I:%M%p") %></td>
         <td><%= t(task.status, scope: :status) %></td>
         <td><%= t(task.priority, scope: :priority) %></td>
-        <td><%= task.tag %></td>
         <td><%= task.created_at.strftime("%Y/%m/%d at %I:%M%p") %></td>
     </tr>
     <% end %>

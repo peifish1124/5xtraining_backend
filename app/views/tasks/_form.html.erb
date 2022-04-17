@@ -10,7 +10,7 @@
 
   <%= f.select :priority, Task.priorities.map {|key, value| [t("priority.#{key}"),key] } %><br/>
 
-  <%= f.text_field :tag %><br/>
+  <%= f.text_field :all_tags, placeholder: t("notice.placeholder") %><br/>
 
   <%= f.submit t("button.submit")%>
 <% end %>

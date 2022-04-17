@@ -5,6 +5,19 @@ class Task < ApplicationRecord
     validates :title, presence: { message: I18n.t('notice.title_require') }
     enum priority: { low: 0, middle: 1, high: 2 }
 
+    has_many :tag_relations
+    has_many :tags, through: :tag_relations
+
+    def all_tags
+        tags.map(&:name).join('|')
+    end
+
+    def all_tags=(names)
+        self.tags = names.split('|').map do |name|
+            Tag.find_or_create_by(name: name)
+        end
+    end
+
     def do_it
         if status == 'pending'
          self.status = 'ongoing'

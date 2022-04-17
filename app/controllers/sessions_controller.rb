@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
             log_in(@user)
             redirect_to tasks_path(@user), notice: I18n.t('notice.login')
         else
-            redirect_to login_path, notice: I18n.t('notice.login_fail')
+            redirect_to login_path, alert: I18n.t('notice.login_fail')
         end
     end
 

@@ -2,8 +2,11 @@
 
 <br>
 <%= link_to t("action.new"), new_task_path, class: "btn btn-primary"%>
+<% if current_user.admin %>
+  <%= link_to t("action.manage_user"), admin_users_path, class: "btn btn-primary"%>
+<% end %>
 
-<div class = "navbar-form" style = "margin-top: -8vh; margin-left: 53vw; margin-bottom: 3vh;">
+<div class = "navbar-form" style = "margin-top: -13vh; margin-left: 53vw; margin-bottom: 3vh; width: 30vw;">
   <%= search_form_for @q do |f| %>
     <%= f.label :title %>
     <%= f.search_field :title_cont_any %>
@@ -15,7 +18,13 @@
         <%= f.radio_button :status_eq, tag %>
         <%= f.label t(tag, scope: :status) %>
     <% end %>
-    <span style = "margin-left: 3px;"><%= f.submit %></span>
+    <br>
+    <%= f.label t('choose_tag')%>
+    <% Tag.all.each do |s| %>
+      <%= f.radio_button :tags_id_eq_any, s.id %>
+      <%= s.name %>  
+    <% end %>
+    <%= f.submit class: 'btn btn-secondary' ,style: 'width: 27vw; margin-top: 1vh;' %>
   <% end %>
 </div>
 
@@ -27,7 +36,7 @@
       <th><%= sort_link(@q, :end_time) %></th>
       <th><%= @tasks.human_attribute_name(:status) %></th>
       <th><%= sort_link(@q, :priority) %></th>
-      <th><%= @tasks.human_attribute_name(:tag) %></th>
+      <th><%= t("tag") %></th>
       <th><%= sort_link(@q, :created_at) %></th>
       <th><%= t("action.update_status") %></th>
       <th><%= t("action.title") %></th>
@@ -40,7 +49,7 @@
         <td><%= task.end_time.strftime("%Y/%m/%d at %I:%M%p") %></td>
         <td><%= t(task.status, scope: :status) %></td>
         <td><%= t(task.priority, scope: :priority) %></td>
-        <td><%= task.tag %></td>
+        <td><%= task.all_tags %></td>
         <td><%= task.created_at.strftime("%Y/%m/%d at %I:%M%p") %></td>
         <td>
           <% if task.status == 'pending' %>
