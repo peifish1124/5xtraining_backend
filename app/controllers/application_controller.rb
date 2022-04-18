@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-    helper_method :current_user
+    helper_method :current_user, :flash_display
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
     def log_in(user)
@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
 
     def current_user
         @current_user ||= User.find_by(id: session[:user_id])
+    end
+
+    def flash_display
+        { 'notice' => 'alert alert-success', 'alert' => 'alert alert-danger' }
     end
 
     def is_logged_in?
