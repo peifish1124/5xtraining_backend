@@ -12,15 +12,12 @@
 
   <body>
     <div class = "container">
-      <% if notice %>
-        <div class="alert alert-success" role="alert">
-          <%= notice %>
-        </div>
-      <% end %>
-      <% if alert %>
-        <div class="alert alert-danger" role="alert">
-          <%= alert %>
-        </div>
+      <% flash.each do |type, msg| %>
+        <% if type == 'notice'%>
+          <div class="alert alert-success"><%= msg %></div>
+        <% else %>
+          <div class="alert alert-danger"><%= msg %></div>
+        <% end%>
       <% end %>
       <%= yield %>
     </div>
