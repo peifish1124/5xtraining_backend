@@ -27,7 +27,7 @@ RSpec.feature "Tasks", type: :feature do
       expect(page).to have_text Task.human_attribute_name(:end_time)
       expect(page).to have_text Task.human_attribute_name(:status)
       expect(page).to have_text Task.human_attribute_name(:priority)
-      expect(page).to have_text Task.human_attribute_name(:tag)
+      expect(page).to have_text I18n.t("tag")
       expect(page).to have_text Task.human_attribute_name(:created_at)
       expect(page).to have_text I18n.t("action.update_status")
       expect(page).to have_text I18n.t("action.title")

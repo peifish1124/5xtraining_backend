@@ -7,7 +7,9 @@
   <%= f.label :email %>
   <%= f.text_field :email %><br>
   <%= f.label :password %>
-  <%= f.password_field :password %><br><br>
+  <%= f.password_field :password %><br>
+  <%= f.label :admin %>
+  <%= f.select :admin, [[t('admin.true'), true], [t('admin.false'), false]] %><br><br>
   <%= f.submit t("button.submit") %>
 <% end %>
 <br>

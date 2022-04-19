@@ -12,10 +12,8 @@
 
   <body>
     <div class = "container">
-      <% if notice%>
-        <div class="alert alert-success" role="alert">
-          <%= notice %>
-        </div>
+      <% flash.each do |type, msg|%>
+          <%= flash_display(type, msg) %>
       <% end %>
       <%= yield %>
     </div>

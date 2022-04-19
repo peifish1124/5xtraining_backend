@@ -11,13 +11,14 @@ zh-TW:
         end_time: 結束時間
         status: 狀態
         priority: 優先順序
-        tag: 分類標籤
         user_id: 使用者序號
         created_at: 創建時間
+        all_tags: 分類標籤
       user:
         name: 名字
         email: 電子信箱
         password: 密碼
+        admin: 是否為管理員
   page:
     index_page: 任務列表
     new_page: 新增任務
@@ -37,12 +38,19 @@ zh-TW:
     logout: 登出
     signup: 註冊
     new_user: 新增使用者
+    manage_user: 使用者管理頁面
 
   back: 回任務列表
   back_to_login: 回登入頁面
   back_to_admin: 回管理頁面
+  back_to_own: 回個人頁面
   tasks_num: 任務數量
+  tag: 分類標籤
+  choose_tag: 請選擇標籤
   
+  admin:
+    true: 是
+    false: 否
   status:
     pending: 待處理
     ongoing: 進行中
@@ -69,6 +77,8 @@ zh-TW:
     create_user: 新增使用者成功！
     delete_user: 使用者已刪除！
     update_user: 使用者資訊已更新！
+    no_admin: 無法移除最後一個管理員！
+    placeholder: 請用 "|" 分隔標籤
   status_action:
     do_it: 開始處理
     finish_it: 完成任務
